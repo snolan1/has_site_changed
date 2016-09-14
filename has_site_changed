@@ -1,0 +1,52 @@
+#! /usr/bin/env python3
+
+'''
+Copyright (c) 2016 - Stephen Nolan
+
+
+This script is for watching, "has a website changed?". Technically, any valid 
+URL (ftp:// , etc) could be observed, but this implementation is for watching
+if the HTML returned from some URL has changed.
+
+I'm using it to watch when new updates are posted for a course I'm in"
+'''
+
+
+import subprocess
+import time
+import urllib.request
+
+# Which URL should we watch for changes? ex:
+# URL_TO_WATCH = ('http://www.python.org') \
+URL_TO_WATCH = ('http://www.cs.arizona.edu/personnel/')
+
+# How long, in seconds, to wait in between fetches of the resource
+# ex: UPDATE_INTERVAL = 60
+UPDATE_INTERVAL = 2
+
+# Fetch current website html
+http_old = urllib.request.urlopen(URL_TO_WATCH).read()
+
+# Make a copy to use for delta checks
+http_new = http_old
+
+# Check website every [UPDATE_INTERVAL] for changes
+while (http_old == http_new):
+
+    # Clear terminal screen and give status
+    subprocess.call('clear')
+    print('[-]', URL_TO_WATCH)
+    print('[-] \033[31mNo change Detected\033[0m')
+    print('[-] Checked: ', 
+            time.strftime('%a, %d %B %Y @ %I:%M:%S%p'), end='\n\n')
+
+    # Wait before next check
+    time.sleep(UPDATE_INTERVAL)
+
+    # Fetch the site again
+    http_new = urllib.request.urlopen(URL_TO_WATCH).read()
+
+print('=====================================================================\n')
+print('\033[32m[CHANGE DETECTED]\033[0m')
+print('[-] Checked: ', time.strftime('%a, %d %B %Y @ %I:%M:%S%p'))
+print('[-]', URL_TO_WATCH, '\n')
