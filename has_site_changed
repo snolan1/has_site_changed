@@ -22,7 +22,7 @@ URL_TO_WATCH = ('http://www.cs.arizona.edu/personnel/')
 
 # How long, in seconds, to wait in between fetches of the resource
 # ex: UPDATE_INTERVAL = 60
-UPDATE_INTERVAL = 2
+UPDATE_INTERVAL = 60
 
 # Fetch current website html
 http_old = urllib.request.urlopen(URL_TO_WATCH).read()
